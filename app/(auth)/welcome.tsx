@@ -22,13 +22,13 @@ const welcome = () => {
 
                 <View style={styles.footer}>
                     <Animated.View entering={FadeInDown.duration(1000).springify().damping(12)} style={{ alignItems: "center" }}>
-                        <Typo size={30} fontWeight={"800"}>Always take control</Typo>
-                        <Typo size={30} fontWeight={"800"}>of your finances</Typo>
+                        <Typo size={30} fontWeight={"800"}>Control money</Typo>
+                        <Typo size={30} fontWeight={"800"}>Don’t let it control you</Typo>
                     </Animated.View>
                    
                     <Animated.View entering={FadeInDown.duration(100).delay(500).springify().damping(12)} style={{ alignItems: "center", gap: 2 }}>
-                            <Typo size={17} color={colors.textLight}>Finances must be arranged to a set a better</Typo>
-                            <Typo size={17} color={colors.textLight}>lifestyle in future</Typo>
+                            <Typo size={17} color={colors.textLight}>Financial control leads to freedom</Typo>
+                            <Typo size={17} color={colors.textLight}>start your journey today</Typo>
                     </Animated.View>
 
                     <Animated.View entering={FadeInDown.duration(200).delay(1000).springify().damping(12)} style={styles.buttonContainer}>
