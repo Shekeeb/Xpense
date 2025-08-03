@@ -36,7 +36,6 @@ const welcome = () => {
                             <Typo size={22} color={colors.neutral900} fontWeight={"600"}>Get Started</Typo>
                         </Button>
                     </Animated.View>
-
                 </View>
 
             </View>
