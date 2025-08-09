@@ -5,15 +5,19 @@ import Typo from '@/components/Typo'
 import { colors, spacingX, spacingY } from '@/constants/theme'
 import { verticalScale } from '@/utils/style'
 import welcomeImage from "../../assets/images/welcome.png"
-import  Button  from '../../components/Button'
+import Button from '../../components/Button'
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated"
+import { useRouter } from 'expo-router'
 
 const welcome = () => {
+
+    const router = useRouter();
+
     return (
         <ScreenWrapper>
             <View style={styles.container}>
                 <View>
-                    <TouchableOpacity style={styles.loginButton}>
+                    <TouchableOpacity onPress={() => router.push("/(auth)/login")} style={styles.loginButton}>
                         <Typo style={{ fontWeight: "500" }}>Sign In</Typo>
                     </TouchableOpacity>
 
@@ -25,14 +29,14 @@ const welcome = () => {
                         <Typo size={30} fontWeight={"800"}>Control money</Typo>
                         <Typo size={30} fontWeight={"800"}>Don’t let it control you</Typo>
                     </Animated.View>
-                   
+
                     <Animated.View entering={FadeInDown.duration(100).delay(500).springify().damping(12)} style={{ alignItems: "center", gap: 2 }}>
-                            <Typo size={17} color={colors.textLight}>Financial control leads to freedom</Typo>
-                            <Typo size={17} color={colors.textLight}>start your journey today</Typo>
+                        <Typo size={17} color={colors.textLight}>Financial control leads to freedom</Typo>
+                        <Typo size={17} color={colors.textLight}>start your journey today</Typo>
                     </Animated.View>
 
                     <Animated.View entering={FadeInDown.duration(200).delay(1000).springify().damping(12)} style={styles.buttonContainer}>
-                        <Button>
+                        <Button onPress={() => router.push("/(auth)/register")}>
                             <Typo size={22} color={colors.neutral900} fontWeight={"600"}>Get Started</Typo>
                         </Button>
                     </Animated.View>
