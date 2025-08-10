@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import ScreenWrapper from '@/components/ScreenWrapper'
+import Typo from '@/components/Typo'
 
 const profile = () => {
   return (
-    <View>
-      <Text>profile</Text>
-    </View>
+    <ScreenWrapper>
+      <Typo>profile</Typo>
+    </ScreenWrapper>
   )
 }
 
