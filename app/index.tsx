@@ -6,13 +6,13 @@ import { useRouter } from 'expo-router'
 
 const index = () => {
 
-  const router=useRouter();
+  // const router=useRouter();
 
-  useEffect(()=>{
-    setTimeout(()=>{
-      router.push('/(auth)/welcome');
-    },3000)
-  },[])
+  // useEffect(()=>{
+  //   setTimeout(()=>{
+  //     router.push('/(auth)/welcome');
+  //   },3000)
+  // },[])
 
   return (
     <View style={styles.container}>

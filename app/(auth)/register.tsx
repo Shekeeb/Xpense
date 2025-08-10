@@ -9,12 +9,15 @@ import Input from '@/components/Input'
 import * as Icons from "phosphor-react-native"
 import Button from '../../components/Button'
 import { useRouter } from 'expo-router'
+import { useAuth } from '@/contexts/authContext'
 
 const register = () => {
 
     const emailRef = useRef("")
     const passwordRef = useRef("")
     const nameRef = useRef("")
+
+    const {register:registerUser}=useAuth();
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -25,10 +28,13 @@ const register = () => {
             Alert.alert("Sign Up", "Name, Email and password is required")
             return;
         }
-        console.log("name", nameRef.current)
-        console.log("email", emailRef.current)
-        console.log("password", passwordRef.current)
-        console.log("Let's Go...")
+        setIsLoading(true);
+        const res=await registerUser(emailRef.current,passwordRef.current,nameRef.current);
+        setIsLoading(false);
+        console.log("Registerd",res);
+        if(!res.success){
+            Alert.alert("Sign Up",res.msg)
+        }
     }
 
     return (
