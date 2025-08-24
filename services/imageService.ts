@@ -10,25 +10,30 @@ export const uploadFileToCloudinary = async (
     folderName: string
 ): Promise<ResponseType> => {
     try {
+
+        if (!file) {
+            return { success: true, data: null }
+        }
+
         if (typeof file == "string") {
             return { success: true, data: file }
         }
 
-        if(file && file.uri){
-            const formData=new FormData();
-            formData.append("file",{
-                uri:file?.uri,
-                type:"iamge/jpeg",
-                name:file?.uri?.split("/").pop() || "file.jpg"
+        if (file && file.uri) {
+            const formData = new FormData();
+            formData.append("file", {
+                uri: file?.uri,
+                type: "iamge/jpeg",
+                name: file?.uri?.split("/").pop() || "file.jpg"
             } as any);
 
-            formData.append("upload preset",CLOUDINARY_UPLOAD_PRESET);
-            formData.append("folder",folderName);
+            formData.append("upload preset", CLOUDINARY_UPLOAD_PRESET);
+            formData.append("folder", folderName);
 
-            const response=await axios.post(CLOUDINARY_API_URL,formData,{
-                headers:{"Content-Type":"multipart/form-data"}
+            const response = await axios.post(CLOUDINARY_API_URL, formData, {
+                headers: { "Content-Type": "multipart/form-data" }
             })
-            return {success:true,data:response?.data?.secure_url}
+            return { success: true, data: response?.data?.secure_url }
         }
 
         return { success: true }
@@ -43,4 +48,11 @@ export const getProfileImage = (file: any) => {
     if (file && typeof file == "object") return file.uri;
 
     return defaultProfileImage
+}
+
+export const getFilePath = (file: any) => {
+    if (file && typeof file == "string") return file;
+    if (file && typeof file == "object") return file.uri;
+
+    return null
 }
