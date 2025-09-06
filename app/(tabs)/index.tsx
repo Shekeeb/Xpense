@@ -11,11 +11,22 @@ import HomeCard from '@/components/HomeCard'
 import TransactionList from '@/components/TransactionList'
 import Button from '@/components/Button'
 import { useRouter } from 'expo-router'
+import { limit, orderBy, where } from 'firebase/firestore'
+import useFetchData from '@/hooks/useFetchData'
+import { TransactionType } from '@/types'
 
 const Home = () => {
 
   const router = useRouter()
   const { user } = useAuth()
+
+  const constraints = [
+    where("uid", "==", user?.uid),
+    orderBy("date", "desc"),
+    limit(10)
+  ]
+
+  const { data: recentTransactions, loading: transactionsLoading, error } = useFetchData<TransactionType>("transactions", constraints)
 
   return (
     <ScreenWrapper>
@@ -34,7 +45,7 @@ const Home = () => {
           <View>
             <HomeCard />
           </View>
-          <TransactionList data={[1, 2, 3, 4, 5, 6, 7]} loading={false} emptyListMessage='No Transactions' title='Recent Transactions' />
+          <TransactionList data={recentTransactions} loading={transactionsLoading} emptyListMessage='No Transactions' title='Recent Transactions' />
         </ScrollView>
 
         <Button onPress={() => router.push("/(modals)/transactionModal")} style={styles.floatingButtons}> <Icons.PlusIcon color={colors.black} weight='bold' size={verticalScale(24)} /> </Button>

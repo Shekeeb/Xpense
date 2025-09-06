@@ -19,6 +19,7 @@ import useFetchData from '@/hooks/useFetchData'
 import { orderBy, where } from 'firebase/firestore'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Input from '@/components/Input'
+import { createOrUpdateTransaction } from '@/services/transactionService'
 
 const transactionModal = () => {
 
@@ -104,6 +105,15 @@ const transactionModal = () => {
             type, amount, description, date, walletId, category, image, uid: user?.uid
         }
         console.log("Transaction Data", transactionData)
+        setLoading(true)
+        const response = await createOrUpdateTransaction(transactionData)
+        setLoading(false)
+        if (response.success) {
+            router.back()
+        }
+        else {
+            Alert.alert("Transaction", response.msg)
+        }
     }
 
     const [loading, setLoading] = useState(false)
