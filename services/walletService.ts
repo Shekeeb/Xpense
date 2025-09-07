@@ -1,6 +1,6 @@
 import { WalletType } from "@/types";
 import { uploadFileToCloudinary } from "./imageService";
-import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, setDoc, where, writeBatch } from "firebase/firestore";
 import { firestore } from "@/config/firebase";
 
 export const createOrUpdateWallet = async (
@@ -50,10 +50,38 @@ export const createOrUpdateWallet = async (
 
 export const deleteWallet = async (walletId: string): Promise<ResponseType> => {
     try {
-        const walletRef=doc(firestore,"wallets",walletId)
+        const walletRef = doc(firestore, "wallets", walletId)
         await deleteDoc(walletRef);
-        return {success:true,msg:"Wallet deleted successfully"}
-    } catch (error:any) {
+        deleteTransactionsByWalletId(walletId);
+        return { success: true, msg: "Wallet deleted successfully" }
+    } catch (error: any) {
+        console.log("Error deleting wallet:", error);
+        return { success: false, msg: error.message };
+    }
+}
+
+export const deleteTransactionsByWalletId = async (walletId: string): Promise<ResponseType> => {
+    try {
+        let hasMoreTransactions = true
+        while (hasMoreTransactions) {
+            const transactionQuery = query(collection(firestore, "transactions"),
+                where("walletId", "==", walletId)
+            );
+
+            const transactionSnapshot = await getDocs(transactionQuery);
+            if (transactionSnapshot.size == 0) {
+                hasMoreTransactions = false;
+                break;
+            }
+
+            const batch = writeBatch(firestore)
+            transactionSnapshot.forEach((transactionDoc) => {
+                batch.delete(transactionDoc.ref);
+            })
+            await batch.commit();
+        }
+        return { success: true, msg: "All transactions related to this wallet deleted successfully" }
+    } catch (error: any) {
         console.log("Error deleting wallet:", error);
         return { success: false, msg: error.message };
     }
