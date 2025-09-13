@@ -48,7 +48,7 @@ export const getLast12Months = () => {
       expense: 0,
     });
   }
-;
+  ;
   return result.reverse();
 };
 
